@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class DataService {
@@ -41,40 +42,90 @@ public class DataService {
   }
 
   public void createSalesman(String[] partes) throws BusinessException {
-    try {
-      salesmen.add(new Salesman(partes[1], partes[2], Double.parseDouble(partes[3])));
-    } catch (Exception e) {
-      throw new BusinessException(e.getMessage());
+
+    if (Objects.isNull(partes[1]) || partes[1].equals("")) {
+      throw new BusinessException("Nome inválido");
     }
+
+    if (Objects.isNull(partes[2]) || partes[2].equals("")) {
+      throw new BusinessException("CPF inválido");
+    }
+
+    if (Objects.isNull(partes[2])
+        || partes[3].equals("")
+        || Double.valueOf(partes[3]) instanceof Double) {
+      throw new BusinessException("Salário inválido");
+    }
+
+    salesmen.add(new Salesman(partes[1], partes[2], Double.parseDouble(partes[3])));
   }
 
   public void createClient(String[] partes) throws BusinessException {
-    try {
-      clients.add(new Client(partes[1], partes[2], partes[3]));
-    } catch (Exception e) {
-      throw new BusinessException(e.getMessage());
+
+    if (Objects.isNull(partes[1]) || partes[1].equals("")) {
+      throw new BusinessException("Nome inválido");
     }
+
+    if (Objects.isNull(partes[2]) || partes[2].equals("")) {
+      throw new BusinessException("CNPJ inválido");
+    }
+
+    if (Objects.isNull(partes[2]) || partes[3].equals("")) {
+      throw new BusinessException("Área de Negócio inválida");
+    }
+
+    clients.add(new Client(partes[1], partes[2], partes[3]));
   }
 
   public void createSale(String[] partes) throws BusinessException {
-    try {
 
-      List<Product> products = new ArrayList<>();
-      List<String> strings = Arrays.asList(partes[2].replaceAll("[\\[\\]]", "").split(","));
+    List<Product> products = new ArrayList<>();
+    List<String> strings = Arrays.asList(partes[2].replaceAll("[\\[\\]]", "").split(","));
 
-      for (String item : strings) {
-        String[] partesItem = item.split("-");
-        products.add(
-            new Product(
-                Integer.parseInt(partesItem[0]),
-                Integer.parseInt(partesItem[1]),
-                Double.parseDouble(partesItem[2])));
+    if (strings.isEmpty()) {
+      throw new BusinessException("Dados inválidos");
+    }
+
+    if (Objects.isNull(partes[0])
+        || partes[0].equals("")
+        || Integer.valueOf(partes[0]) instanceof Integer) {
+      throw new BusinessException("Id inválido");
+    }
+
+    for (String item : strings) {
+      String[] partesItem = item.split("-");
+
+      if (Objects.isNull(partesItem[0])
+          || partesItem[0].equals("")
+          || Integer.valueOf(partesItem[0]) instanceof Integer) {
+        throw new BusinessException("Id inválido");
       }
 
-      sales.add(new Sale(Integer.parseInt(partes[1]), products, partes[3]));
-    } catch (Exception e) {
-      throw new BusinessException(e.getMessage());
+      if (Objects.isNull(partesItem[1])
+          || partes[1].equals("")
+          || Integer.valueOf(partes[1]) instanceof Integer) {
+        throw new BusinessException("Quantidade inválida");
+      }
+
+      if (Objects.isNull(partesItem[2])
+          || partes[2].equals("")
+          || Double.valueOf(partes[2]) instanceof Double) {
+        throw new BusinessException("Preço inválido");
+      }
+
+      products.add(
+          new Product(
+              Integer.parseInt(partesItem[0]),
+              Integer.parseInt(partesItem[1]),
+              Double.parseDouble(partesItem[2])));
     }
+
+    if (Objects.isNull(partes[0])
+            || partes[0].equals("")) {
+      throw new BusinessException("Nome do Vendedor inválido");
+    }
+
+    sales.add(new Sale(Integer.parseInt(partes[1]), products, partes[3]));
   }
 
   public List<Salesman> getSalesmen() {
