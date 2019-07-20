@@ -1,10 +1,10 @@
 package com.ss.reportsale.service;
 
+import com.ss.reportsale.exception.BusinessException;
 import com.ss.reportsale.model.Client;
 import com.ss.reportsale.model.ReportData;
 import com.ss.reportsale.model.Sale;
 import com.ss.reportsale.model.Salesman;
-import com.ss.reportsale.repository.InputRepository;
 import com.ss.reportsale.utils.Parameters;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +20,10 @@ import java.util.stream.Collectors;
 @Service
 public class ReportService {
 
-  private InputRepository inputRepository;
+  private final DataService dataService;
 
-  public ReportService() {
-    this.inputRepository = new InputRepository();
+  public ReportService(DataService dataService) {
+    this.dataService = dataService;
   }
 
   public ReportData generateOutput(
@@ -50,7 +50,7 @@ public class ReportService {
     return reportData;
   }
 
-  public void generateFileReport(ReportData reportData, File file) {
+  public void generateFileReport(ReportData reportData, File file) throws BusinessException {
 
     try {
       Path path = Paths.get(Parameters.PATH_OUT);
@@ -85,11 +85,11 @@ public class ReportService {
         }
 
       } catch (Exception e) {
-        e.printStackTrace();
+        throw new BusinessException("Erro na geração do relatório: " + e.getMessage());
       }
 
     } catch (Exception k) {
-      System.out.println("Oops");
+      throw new BusinessException("Erro na geração do relatório: " + k.getMessage());
     }
   }
 }

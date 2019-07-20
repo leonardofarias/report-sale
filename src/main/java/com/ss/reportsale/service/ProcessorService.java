@@ -1,10 +1,6 @@
 package com.ss.reportsale.service;
 
-import com.ss.reportsale.model.Client;
-import com.ss.reportsale.model.ReportData;
-import com.ss.reportsale.model.Sale;
-import com.ss.reportsale.model.Salesman;
-import com.ss.reportsale.repository.InputRepository;
+import com.ss.reportsale.exception.BusinessException;
 import com.ss.reportsale.utils.Parameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,36 +19,15 @@ import java.util.stream.Stream;
 public class ProcessorService {
 
   private final Logger log = LoggerFactory.getLogger(ProcessorService.class);
-  private InputRepository inputRepository;
-  private ReportService reportService;
+  private final DataService dataService;
 
-  public ProcessorService() {
-    this.inputRepository = new InputRepository();
-    this.reportService = new ReportService();
+  public ProcessorService(DataService dataService) {
+    this.dataService = dataService;
   }
 
-  public List<File> listFiles() throws IOException {
+  public void readFile(File file) throws BusinessException {
 
-    log.info("Lendo Diretório: " + Parameters.PATH_IN);
-
-    List<File> result;
-
-    try (Stream<Path> walk = Files.list(Paths.get(Parameters.PATH_IN))) {
-
-      result =
-          walk.map(x -> x.toFile())
-              .filter(f -> f.getName().endsWith(".dat"))
-              .collect(Collectors.toList());
-
-      result.forEach(item -> log.info("Arquivo: " + item.getName()));
-
-    } catch (IOException e) {
-      throw new IOException(e);
-    }
-    return result;
-  }
-
-  public void readFile(File file) {
+    String[] partes;
 
     try (BufferedReader br =
         new BufferedReader(
@@ -66,8 +41,7 @@ public class ProcessorService {
 
         if (!strLine.isEmpty() && !strLine.trim().equals("")) {
           log.info("Lendo linha " + count + ": " + strLine);
-          String[] partes = strLine.split(Parameters.SPLIT_VAR);
-
+          partes = strLine.split(Parameters.SPLIT_VAR);
           createObjectsForReport(partes);
 
         } else {
@@ -76,21 +50,12 @@ public class ProcessorService {
         count++;
       }
 
-      ReportData report;
-
-      List<Salesman> salesmen = inputRepository.getSalesmen();
-      List<Client> clients = inputRepository.getClients();
-      List<Sale> sales = inputRepository.getSales();
-
-      report = reportService.generateOutput(salesmen, clients, sales);
-
-      reportService.generateFileReport(report, file);
-    } catch (IOException e) {
-      log.error(e.getMessage());
+    } catch (Exception e) {
+      throw new BusinessException("Erro na leitura dos dados");
     }
   }
 
-  private void createObjectsForReport(String[] partes) {
+  public void createObjectsForReport(String[] partes) throws BusinessException {
 
     Boolean check = true;
     for (String parte : partes) {
@@ -100,9 +65,9 @@ public class ProcessorService {
     }
 
     if (check) {
-      inputRepository.create(partes);
+      dataService.create(partes);
     } else {
-      log.info("Dados incorretos");
+      throw new BusinessException("Dados incorretos");
     }
   }
 }
