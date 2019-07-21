@@ -8,6 +8,7 @@ import com.ss.reportsale.model.Salesman;
 import com.ss.reportsale.service.DataService;
 import com.ss.reportsale.service.ProcessorService;
 import com.ss.reportsale.service.ReportService;
+import com.ss.reportsale.utils.Parameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -33,7 +34,11 @@ public class FileController {
 
   public void createReport(Path file) throws BusinessException {
     try{
-      readFile(file.toFile());
+      if(file.toFile().getName().endsWith(".dat")){
+        readFile(file.toFile());
+      }else{
+        throw new BusinessException("Arquivo: " + file.getFileName() + " não está no formato .dat!");
+      }
     }catch (Exception e ){
       throw new BusinessException(e.getMessage());
     }
@@ -54,7 +59,7 @@ public class FileController {
 
       report = reportService.generateOutput(salesmen, clients, sales);
 
-      reportService.generateFileReport(report, file);
+      reportService.generateFileReport(report, file, Parameters.PATH_OUT);
 
       dataService.setSalesmen(new ArrayList<>());
       dataService.setClients(new ArrayList<>());

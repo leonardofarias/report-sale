@@ -19,7 +19,7 @@ public class DataService {
   private List<Client> clients;
   private List<Sale> sales;
 
-  public DataService(List<Salesman> salesmen, List<Client> clients, List<Sale> sales) {
+  public DataService() {
     this.salesmen = new ArrayList<>();
     this.clients = new ArrayList<>();
     this.sales = new ArrayList<>();
@@ -28,56 +28,56 @@ public class DataService {
   public void create(String[] partes) throws BusinessException {
     switch (partes[0]) {
       case "001":
-        createSalesman(partes);
+        this.salesmen.add(createSalesman(partes));
         break;
       case "002":
-        createClient(partes);
+        this.clients.add(createClient(partes));
         break;
       case "003":
-        createSale(partes);
+        this.sales.add(createSale(partes));
         break;
       default:
         break;
     }
   }
 
-  public void createSalesman(String[] partes) throws BusinessException {
+  public Salesman createSalesman(String[] partes) throws BusinessException {
 
     if (Objects.isNull(partes[1]) || partes[1].equals("")) {
-      throw new BusinessException("Nome inválido");
-    }
-
-    if (Objects.isNull(partes[2]) || partes[2].equals("")) {
       throw new BusinessException("CPF inválido");
     }
 
-    if (Objects.isNull(partes[2])
-        || partes[3].equals("")
-        || Double.valueOf(partes[3]) instanceof Double) {
-      throw new BusinessException("Salário inválido");
-    }
-
-    salesmen.add(new Salesman(partes[1], partes[2], Double.parseDouble(partes[3])));
-  }
-
-  public void createClient(String[] partes) throws BusinessException {
-
-    if (Objects.isNull(partes[1]) || partes[1].equals("")) {
+    if (Objects.isNull(partes[2]) || partes[2].equals("")) {
       throw new BusinessException("Nome inválido");
     }
 
-    if (Objects.isNull(partes[2]) || partes[2].equals("")) {
+    if (Objects.isNull(partes[3])
+        || partes[3].equals("")
+        || Double.isNaN(Double.parseDouble(partes[3]))) {
+      throw new BusinessException("Salário inválido");
+    }
+
+    return new Salesman(partes[1], partes[2], Double.parseDouble(partes[3]));
+  }
+
+  public Client createClient(String[] partes) throws BusinessException {
+
+    if (Objects.isNull(partes[1]) || partes[1].equals("")) {
       throw new BusinessException("CNPJ inválido");
     }
 
-    if (Objects.isNull(partes[2]) || partes[3].equals("")) {
+    if (Objects.isNull(partes[2]) || partes[2].equals("")) {
+      throw new BusinessException("Nome inválido");
+    }
+
+    if (Objects.isNull(partes[3]) || partes[3].equals("")) {
       throw new BusinessException("Área de Negócio inválida");
     }
 
-    clients.add(new Client(partes[1], partes[2], partes[3]));
+    return new Client(partes[1], partes[2], partes[3]);
   }
 
-  public void createSale(String[] partes) throws BusinessException {
+  public Sale createSale(String[] partes) throws BusinessException {
 
     List<Product> products = new ArrayList<>();
     List<String> strings = Arrays.asList(partes[2].replaceAll("[\\[\\]]", "").split(","));
@@ -86,9 +86,9 @@ public class DataService {
       throw new BusinessException("Dados inválidos");
     }
 
-    if (Objects.isNull(partes[0])
-        || partes[0].equals("")
-        || Integer.valueOf(partes[0]) instanceof Integer) {
+    if (Objects.isNull(partes[1])
+        || partes[1].equals("")
+        || Double.isNaN(Double.parseDouble(partes[1]))) {
       throw new BusinessException("Id inválido");
     }
 
@@ -97,19 +97,19 @@ public class DataService {
 
       if (Objects.isNull(partesItem[0])
           || partesItem[0].equals("")
-          || Integer.valueOf(partesItem[0]) instanceof Integer) {
+          || Double.isNaN(Double.parseDouble(partesItem[0]))) {
         throw new BusinessException("Id inválido");
       }
 
       if (Objects.isNull(partesItem[1])
           || partes[1].equals("")
-          || Integer.valueOf(partes[1]) instanceof Integer) {
+          || Double.isNaN(Double.parseDouble(partesItem[1]))) {
         throw new BusinessException("Quantidade inválida");
       }
 
       if (Objects.isNull(partesItem[2])
           || partes[2].equals("")
-          || Double.valueOf(partes[2]) instanceof Double) {
+          || Double.isNaN(Double.parseDouble(partesItem[2]))) {
         throw new BusinessException("Preço inválido");
       }
 
@@ -120,12 +120,12 @@ public class DataService {
               Double.parseDouble(partesItem[2])));
     }
 
-    if (Objects.isNull(partes[0])
-            || partes[0].equals("")) {
+    if (Objects.isNull(partes[3])
+            || partes[3].equals("")) {
       throw new BusinessException("Nome do Vendedor inválido");
     }
 
-    sales.add(new Sale(Integer.parseInt(partes[1]), products, partes[3]));
+    return new Sale(Integer.parseInt(partes[1]), products, partes[3]);
   }
 
   public List<Salesman> getSalesmen() {

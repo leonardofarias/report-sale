@@ -1,5 +1,7 @@
 package com.ss.reportsale.model;
 
+import java.util.Objects;
+
 public class ReportData {
 
   public Integer qtdClient;
@@ -47,5 +49,21 @@ public class ReportData {
 
   public void setWorstSalesman(String worstSalesman) {
     this.worstSalesman = worstSalesman;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    ReportData that = (ReportData) o;
+    return Objects.equals(qtdClient, that.qtdClient) &&
+            Objects.equals(qtdSalesmen, that.qtdSalesmen) &&
+            Objects.equals(bestSaleId, that.bestSaleId) &&
+            Objects.equals(worstSalesman, that.worstSalesman);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(qtdClient, qtdSalesmen, bestSaleId, worstSalesman);
   }
 }

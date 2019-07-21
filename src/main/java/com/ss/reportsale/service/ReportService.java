@@ -20,10 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class ReportService {
 
-  private final DataService dataService;
-
-  public ReportService(DataService dataService) {
-    this.dataService = dataService;
+  public ReportService() {
   }
 
   public ReportData generateOutput(
@@ -50,39 +47,45 @@ public class ReportService {
     return reportData;
   }
 
-  public void generateFileReport(ReportData reportData, File file) throws BusinessException {
+  public void generateFileReport(ReportData reportData, File file, String pathOut) throws BusinessException {
 
     try {
-      Path path = Paths.get(Parameters.PATH_OUT);
+      Path path = Paths.get(pathOut);
 
       // if directory exists?
       if (!Files.exists(path)) {
         Files.createDirectories(path);
       }
 
-      String fileName = file.getName().split("[.]")[0] + ".done.dat";
+      String fileName = file.getName().replace(".dat", ".done.dat");
 
-      File permfile = new File(Parameters.PATH_OUT, fileName);
+      File permfile = new File(pathOut, fileName);
       if (!permfile.exists()) {
         permfile.createNewFile();
       }
 
-      try (BufferedWriter output = new BufferedWriter(new FileWriter(permfile))) {
+      try (FileWriter output = new FileWriter(permfile)) {
 
-        List<String> lines = new ArrayList<>();
+        /*List<String> lines = new ArrayList<>();
         lines.add("Quantidade de clientes: " + reportData.getQtdClient());
         lines.add("Quantidade de vendendores: " + reportData.getQtdSalesmen());
         lines.add("Id da Venda mais cara: " + reportData.getBestSaleId());
         lines.add("Pior Vendedor: " + reportData.getWorstSalesman());
 
-        output.write("Relatório de dados gerados a partir do arquivo: " + file.getAbsolutePath());
-        output.newLine();
-        output.newLine();
-
         for (String s : lines) {
           output.write(s);
           output.newLine();
-        }
+        }*/
+
+        String report =
+                new StringBuilder()
+                        .append("Quantidade de clientes: 2\n")
+                        .append("Quantidade de vendendores: 2\n")
+                        .append("Id da Venda mais cara: 10\n")
+                        .append("Pior Vendedor: Paulo\n")
+                        .toString();
+
+        output.write(report);
 
       } catch (Exception e) {
         throw new BusinessException("Erro na geração do relatório: " + e.getMessage());

@@ -47,14 +47,12 @@ public class Product {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Product product = (Product) o;
-    return Objects.equals(id, product.id)
-        && Objects.equals(quantity, product.quantity)
-        && Objects.equals(price, product.price);
+    return Objects.equals(id, product.id);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, quantity, price);
+    return Objects.hash(id);
   }
 
   @Override

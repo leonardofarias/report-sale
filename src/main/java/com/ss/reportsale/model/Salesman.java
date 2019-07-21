@@ -5,7 +5,7 @@ public class Salesman extends Person {
   private String cpf;
   private Double Salary;
 
-  public Salesman(String name, String cpf, Double salary) {
+  public Salesman(String cpf, String name, Double salary) {
     super(name);
     this.cpf = cpf;
     Salary = salary;

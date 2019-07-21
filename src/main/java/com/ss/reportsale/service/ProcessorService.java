@@ -8,12 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class ProcessorService {
@@ -31,7 +25,7 @@ public class ProcessorService {
 
     try (BufferedReader br =
         new BufferedReader(
-            new InputStreamReader(new FileInputStream(file), Charset.forName("ISO-8859-1")))) {
+            new InputStreamReader(new FileInputStream(file),Charset.forName("ISO-8859-1")))) {
       String strLine;
 
       log.info("Lendo arquivo: " + file.getName());
@@ -41,7 +35,7 @@ public class ProcessorService {
 
         if (!strLine.isEmpty() && !strLine.trim().equals("")) {
           log.info("Lendo linha " + count + ": " + strLine);
-          partes = strLine.split(Parameters.SPLIT_VAR);
+          partes = new String(strLine.getBytes()).split(Parameters.SPLIT_VAR);
           createObjectsForReport(partes);
 
         } else {
@@ -51,7 +45,7 @@ public class ProcessorService {
       }
 
     } catch (Exception e) {
-      throw new BusinessException("Erro na leitura dos dados");
+      throw new BusinessException("Erro na leitura dos dados: " + e.getMessage());
     }
   }
 

@@ -46,7 +46,7 @@ public class ReportSaleApplication {
       }
 
     } catch (InterruptedException e) {
-      log.error(e.getMessage());
+      log.error("Erro: " + e.getMessage());
     } catch (IOException x) {
       log.error(x.getMessage());
     } catch (BusinessException e) {

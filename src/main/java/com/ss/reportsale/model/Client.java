@@ -5,7 +5,7 @@ public class Client extends Person {
   private String cnpj;
   private String businessArea;
 
-  public Client(String name, String cnpj, String businessArea) {
+  public Client(String cnpj, String name, String businessArea) {
     super(name);
     this.cnpj = cnpj;
     this.businessArea = businessArea;
