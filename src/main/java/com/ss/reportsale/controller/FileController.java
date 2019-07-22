@@ -33,13 +33,14 @@ public class FileController {
   }
 
   public void createReport(Path file) throws BusinessException {
-    try{
-      if(file.toFile().getName().endsWith(".dat")){
+    try {
+      if (file.toFile().getName().endsWith(".dat")) {
         readFile(file.toFile());
-      }else{
-        throw new BusinessException("Arquivo: " + file.getFileName() + " não está no formato .dat!");
+      } else {
+        throw new BusinessException(
+            "Arquivo: " + file.getFileName() + " não está no formato .dat!");
       }
-    }catch (Exception e ){
+    } catch (Exception e) {
       throw new BusinessException(e.getMessage());
     }
   }

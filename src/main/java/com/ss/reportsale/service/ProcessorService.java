@@ -25,7 +25,7 @@ public class ProcessorService {
 
     try (BufferedReader br =
         new BufferedReader(
-            new InputStreamReader(new FileInputStream(file),Charset.forName("ISO-8859-1")))) {
+            new InputStreamReader(new FileInputStream(file), Charset.forName("ISO-8859-1")))) {
       String strLine;
 
       log.info("Lendo arquivo: " + file.getName());

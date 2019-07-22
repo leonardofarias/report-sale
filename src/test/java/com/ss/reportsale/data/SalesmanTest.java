@@ -24,8 +24,7 @@ public class SalesmanTest {
         Objects.nonNull(dataService.createSalesman("001ç01773449036çPedroç400.66".split("ç"))));
     assertTrue(
         Objects.nonNull(dataService.createSalesman("001ç01773449036çPedroç400.66".split("ç"))));
-    assertTrue(
-        Objects.nonNull(dataService.createSalesman("001ç01773449036çaaaçaaa".split("ç"))));
+    assertTrue(Objects.nonNull(dataService.createSalesman("001ç01773449036çaaaçaaa".split("ç"))));
   }
 
   @Test

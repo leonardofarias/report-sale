@@ -120,8 +120,7 @@ public class DataService {
               Double.parseDouble(partesItem[2])));
     }
 
-    if (Objects.isNull(partes[3])
-            || partes[3].equals("")) {
+    if (Objects.isNull(partes[3]) || partes[3].equals("")) {
       throw new BusinessException("Nome do Vendedor inválido");
     }
 

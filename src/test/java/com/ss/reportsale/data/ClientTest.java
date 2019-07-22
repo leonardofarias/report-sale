@@ -27,9 +27,7 @@ public class ClientTest {
             dataService.createClient(
                 "002ç00100200300405çCustomer With SpaceçBusiness Area".split("ç"))));
     assertTrue(
-        Objects.nonNull(
-            dataService.createClient(
-                "002ç00100200300405ççBusiness Area".split("ç"))));
+        Objects.nonNull(dataService.createClient("002ç00100200300405ççBusiness Area".split("ç"))));
   }
 
   @Test

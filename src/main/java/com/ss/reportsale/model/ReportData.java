@@ -56,10 +56,10 @@ public class ReportData {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     ReportData that = (ReportData) o;
-    return Objects.equals(qtdClient, that.qtdClient) &&
-            Objects.equals(qtdSalesmen, that.qtdSalesmen) &&
-            Objects.equals(bestSaleId, that.bestSaleId) &&
-            Objects.equals(worstSalesman, that.worstSalesman);
+    return Objects.equals(qtdClient, that.qtdClient)
+        && Objects.equals(qtdSalesmen, that.qtdSalesmen)
+        && Objects.equals(bestSaleId, that.bestSaleId)
+        && Objects.equals(worstSalesman, that.worstSalesman);
   }
 
   @Override

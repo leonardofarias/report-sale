@@ -20,8 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class ReportService {
 
-  public ReportService() {
-  }
+  public ReportService() {}
 
   public ReportData generateOutput(
       List<Salesman> salesmen, List<Client> clients, List<Sale> sales) {
@@ -47,7 +46,8 @@ public class ReportService {
     return reportData;
   }
 
-  public void generateFileReport(ReportData reportData, File file, String pathOut) throws BusinessException {
+  public void generateFileReport(ReportData reportData, File file, String pathOut)
+      throws BusinessException {
 
     try {
       Path path = Paths.get(pathOut);
@@ -78,12 +78,12 @@ public class ReportService {
         }*/
 
         String report =
-                new StringBuilder()
-                        .append("Quantidade de clientes: 2\n")
-                        .append("Quantidade de vendendores: 2\n")
-                        .append("Id da Venda mais cara: 10\n")
-                        .append("Pior Vendedor: Paulo\n")
-                        .toString();
+            new StringBuilder()
+                .append("Quantidade de clientes: 2\n")
+                .append("Quantidade de vendendores: 2\n")
+                .append("Id da Venda mais cara: 10\n")
+                .append("Pior Vendedor: Paulo\n")
+                .toString();
 
         output.write(report);
 
