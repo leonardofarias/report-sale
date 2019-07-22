@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 @RunWith(JUnit4.class)
 public class SalesmanTest {
 
-  @Test
+  @Test(expected = Exception.class)
   public void shouldReturnFalseIfSalesmanIsNotCorrect() throws BusinessException {
     DataService dataService = new DataService();
 
@@ -24,8 +24,8 @@ public class SalesmanTest {
         Objects.nonNull(dataService.createSalesman("001ç01773449036çPedroç400.66".split("ç"))));
     assertTrue(
         Objects.nonNull(dataService.createSalesman("001ç01773449036çPedroç400.66".split("ç"))));
-    assertFalse(
-        Objects.isNull(dataService.createSalesman("001ç01773449036çPedroç50ç0.66".split("ç"))));
+    assertTrue(
+        Objects.nonNull(dataService.createSalesman("001ç01773449036çaaaçaaa".split("ç"))));
   }
 
   @Test

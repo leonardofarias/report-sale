@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 
 public class SaleTest {
 
-  @Test
+  @Test(expected = Exception.class)
   public void shouldReturnFalseIfClientIsNotCorrect() throws BusinessException {
     DataService dataService = new DataService();
 
@@ -25,9 +25,9 @@ public class SaleTest {
             dataService.createSale(
                 "003ç123ç[1-10-100,2-30-2.50,3-40-3.10]çSalesmanName".split("ç"))));
     assertFalse(
-        Objects.isNull(
+        Objects.nonNull(
             dataService.createSale(
-                "003ç123ç[1-10-100,2-30-2.50,3-40-3.10]çSalesmçanName".split("ç"))));
+                "003ç123ççSalesmçanName".split("ç"))));
   }
 
   @Test
