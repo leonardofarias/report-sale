@@ -60,11 +60,11 @@ public class FileController {
 
       report = reportService.generateOutput(salesmen, clients, sales);
 
-      reportService.generateFileReport(report, file, Parameters.PATH_OUT);
+      salesmen.clear();
+      clients.clear();
+      sales.clear();
 
-      dataService.setSalesmen(new ArrayList<>());
-      dataService.setClients(new ArrayList<>());
-      dataService.setSales(new ArrayList<>());
+      reportService.generateFileReport(report, file, Parameters.PATH_OUT);
 
       log.info("Relatório gerado a partir do arquivo: " + file.getName());
 

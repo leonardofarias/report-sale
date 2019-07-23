@@ -66,23 +66,12 @@ public class ReportService {
 
       try (FileWriter output = new FileWriter(permfile)) {
 
-        /*List<String> lines = new ArrayList<>();
-        lines.add("Quantidade de clientes: " + reportData.getQtdClient());
-        lines.add("Quantidade de vendendores: " + reportData.getQtdSalesmen());
-        lines.add("Id da Venda mais cara: " + reportData.getBestSaleId());
-        lines.add("Pior Vendedor: " + reportData.getWorstSalesman());
-
-        for (String s : lines) {
-          output.write(s);
-          output.newLine();
-        }*/
-
         String report =
             new StringBuilder()
-                .append("Quantidade de clientes: 2\n")
-                .append("Quantidade de vendendores: 2\n")
-                .append("Id da Venda mais cara: 10\n")
-                .append("Pior Vendedor: Paulo\n")
+                .append("Quantidade de clientes: " + reportData.getQtdClient() + "\n")
+                .append("Quantidade de vendendores: " + reportData.getQtdSalesmen() + "\n")
+                .append("Id da Venda mais cara: " + reportData.getBestSaleId() + "\n")
+                .append("Pior Vendedor: " + reportData.getWorstSalesman() + "\n")
                 .toString();
 
         output.write(report);
